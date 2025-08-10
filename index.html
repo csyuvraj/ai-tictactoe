@@ -1,0 +1,132 @@
+import random
+import time
+
+# Represents the game board. A list of 9 strings.
+board = [' ' for _ in range(9)]
+
+def print_board():
+    """Prints the game board to the console."""
+    print()
+    print(f" {board[0]} | {board[1]} | {board[2]} ")
+    print("---|---|---")
+    print(f" {board[3]} | {board[4]} | {board[5]} ")
+    print("---|---|---")
+    print(f" {board[6]} | {board[7]} | {board[8]} ")
+    print()
+
+def is_winner(b, player):
+    """Checks if a given player has won on the board 'b'."""
+    # Check rows, columns, and diagonals
+    win_conditions = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],  # Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],  # Columns
+        [0, 4, 8], [2, 4, 6]              # Diagonals
+    ]
+    for condition in win_conditions:
+        if b[condition[0]] == player and b[condition[1]] == player and b[condition[2]] == player:
+            return True
+    return False
+
+def is_board_full():
+    """Checks if the board is full (a draw)."""
+    return ' ' not in board
+
+def player_move():
+    """Handles the human player's move."""
+    while True:
+        try:
+            # Ask the player for a move (1-9)
+            move = int(input("Enter your move (1-9): "))
+            if move < 1 or move > 9:
+                print("Invalid move. Please choose a number between 1 and 9.")
+                continue
+            # Convert 1-9 to 0-8 for list index
+            if board[move - 1] == ' ':
+                board[move - 1] = 'X'
+                break
+            else:
+                print("That space is already taken! Try again.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+def ai_move():
+    """Handles the AI's move using a strategic algorithm."""
+    print("AI is thinking...")
+    time.sleep(1) # Add a small delay to make it feel more natural
+
+    # --- AI Strategy ---
+    # 1. Check if AI ('O') can win in the next move
+    for i in range(9):
+        if board[i] == ' ':
+            board_copy = board.copy()
+            board_copy[i] = 'O'
+            if is_winner(board_copy, 'O'):
+                board[i] = 'O'
+                return
+
+    # 2. Check if the player ('X') can win, and block them
+    for i in range(9):
+        if board[i] == ' ':
+            board_copy = board.copy()
+            board_copy[i] = 'X'
+            if is_winner(board_copy, 'X'):
+                board[i] = 'O'
+                return
+
+    # 3. Try to take one of the corners
+    corners = [0, 2, 6, 8]
+    available_corners = [i for i in corners if board[i] == ' ']
+    if available_corners:
+        move = random.choice(available_corners)
+        board[move] = 'O'
+        return
+
+    # 4. Try to take the center
+    if board[4] == ' ':
+        board[4] = 'O'
+        return
+
+    # 5. Try to take one of the sides
+    sides = [1, 3, 5, 7]
+    available_sides = [i for i in sides if board[i] == ' ']
+    if available_sides:
+        move = random.choice(available_sides)
+        board[move] = 'O'
+        return
+
+def main_game():
+    """The main function to run the game loop."""
+    print("Welcome to Tic-Tac-Toe!")
+    print_board()
+
+    while True:
+        # --- Player's Turn ---
+        player_move()
+        print_board()
+
+        # Check if player won
+        if is_winner(board, 'X'):
+            print("Congratulations! You have won!")
+            break
+        # Check for a draw
+        if is_board_full():
+            print("It's a draw!")
+            break
+
+        # --- AI's Turn ---
+        ai_move()
+        print("AI made a move:")
+        print_board()
+
+        # Check if AI won
+        if is_winner(board, 'O'):
+            print("The AI has won! Better luck next time.")
+            break
+        # Check for a draw
+        if is_board_full():
+            print("It's a draw!")
+            break
+
+# --- Start the game ---
+if __name__ == "__main__":
+    main_game()
