@@ -1,5 +1,4 @@
-Tic-Tac-Toe with Artificial Intelligence Opponent
-This is a traditional Tic-Tac-Toe game that you can play within your terminal of the computer.
+Famous Tic Tae Toe game we have all played, but with an AI opponent.
 
 I constructed this project to improve at Python and challenge myself by making a basic AI play against a human. To my surprise, it's difficult to beat!
 
@@ -25,5 +24,5 @@ Features
 What I Learned From This Project
 
 1-How to handle user input and create game loops in Python which is very fundamental.
-
-2-The value of employing functions to maintain the code uncluttered and organized. 3-How to think in terms of game logic, e.g., whether there is a winner or a draw. The basics of creating an algorithm for the AI's strategy, the highlight of the fun!
+2-The value of employing functions to maintain the code uncluttered and organized. 
+3-How to think in terms of game logic, e.g., whether there is a winner or a draw. The basics of creating an algorithm for the AI's strategy, the highlight of the fun!
